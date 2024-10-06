@@ -4,24 +4,24 @@ import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 
 const calculateHash = async () => {
-    const _FOLDER_NAME = 'files';
-    const _FILE_NAME = 'fileToCalculateHashFor.txt';
-    const _CRYPTO_ENCODE = 'sha256';
-    const _OUTPUT_ENCODE = 'hex';
+    const FOLDER_NAME = 'files';
+    const FILE_NAME = 'fileToCalculateHashFor.txt';
+    const CRYPTO_ENCODE = 'sha256';
+    const OUTPUT_ENCODE = 'hex';
 
-    const cur_path = dirname(import.meta.url);
-    const path = join(cur_path, _FOLDER_NAME, _FILE_NAME);
+    const curPath = dirname(import.meta.url);
+    const path = join(curPath, FOLDER_NAME, FILE_NAME);
     const urlPath = fileURLToPath(path);
 
     const input = createReadStream(urlPath);
-    const hash = createHash(_CRYPTO_ENCODE);
+    const hash = createHash(CRYPTO_ENCODE);
 
     input.on('readable', () =>{
         const data = input.read();
         if(data){
             hash.update(data);
         } else {
-            console.log(hash.digest(_OUTPUT_ENCODE));
+            console.log(hash.digest(OUTPUT_ENCODE));
         }
     })
 };

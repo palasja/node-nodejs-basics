@@ -3,19 +3,19 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const copy = async () => {
-    const _ORIGINAL_FOLDER_NAME = 'files';
-    const _NEW_FOLDER_NAME = 'files_copy';
-    const _ERROR_MESSAGE = 'FS operation failed';
+    const ORIGINAL_FOLDER_NAME = 'files';
+    const NEW_FOLDER_NAME = 'files_copy';
+    const ERROR_MESSAGE = 'FS operation failed';
 
-    let getUrlPath = (folderName) => {
-        let cur_path = dirname(import.meta.url);
-        let fullPath = join(cur_path, folderName);
+    const getUrlPath = (folderName) => {
+        const curPath = dirname(import.meta.url);
+        const fullPath = join(curPath, folderName);
         return fileURLToPath(fullPath);
     }
     
-    const urlOriginalPath = getUrlPath(_ORIGINAL_FOLDER_NAME);
-    const urlNewlPath = getUrlPath(_NEW_FOLDER_NAME);
-    let options = {
+    const urlOriginalPath = getUrlPath(ORIGINAL_FOLDER_NAME);
+    const urlNewlPath = getUrlPath(NEW_FOLDER_NAME);
+    const options = {
         force : false, 
         errorOnExist: true,
         recursive: true
@@ -24,7 +24,7 @@ const copy = async () => {
     try{
         await cp(urlOriginalPath, urlNewlPath, options)
     } catch( err ){
-        console.error(_ERROR_MESSAGE);
+        throw new Error(ERROR_MESSAGE);
     }
 };
 

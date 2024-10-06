@@ -4,14 +4,12 @@ import { availableParallelism } from 'node:os';
 import { Worker } from 'node:worker_threads';
 
 const performCalculations = async () => {
-    // Write your code here
-
-    const _FILE_NAME = 'worker.js';
-    const cur_path = dirname(import.meta.url);
-    const path = join(cur_path, _FILE_NAME);
+    const FILE_NAME = 'worker.js';
+    const curPath = dirname(import.meta.url);
+    const path = join(curPath, FILE_NAME);
     const urlPath = fileURLToPath(path);
-    const _START_VALUE = 10
-    const promiseArr = [];
+    const START_VALUE = 10
+    let promiseArr = [];
     
     const getWorkerPromise = (val) => {
         return new Promise((resolve, reject) => {
@@ -27,16 +25,14 @@ const performCalculations = async () => {
         )
     }
 
-    for(let i = _START_VALUE; i < _START_VALUE + availableParallelism(); i++){
+    for(let i = START_VALUE; i < START_VALUE + availableParallelism(); i++){
         promiseArr.push(getWorkerPromise(i));
     }
     
-    const res = await Promise.allSettled(promiseArr).then((results) => {
-        return results.map((result) => result.value);
-        }
-    );
+    const promiseResult = await Promise.allSettled(promiseArr);
+    const result = promiseResult.map((result) => result.value);
 
-    console.log(res);
+    console.log(result);
 };
 
 await performCalculations();

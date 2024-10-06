@@ -6,12 +6,13 @@ import { stdout } from 'node:process';
 import { Transform } from 'node:stream';
 import { EOL } from "node:os";
 const read = async () => {
-    const _FOLDER_NAME = 'files';
-    const _FILE_NAME = 'fileToRead.txt';
+    const FOLDER_NAME = 'files';
+    const FILE_NAME = 'fileToRead.txt';
 
-    const cur_path = dirname(import.meta.url);
-    const path = join(cur_path, _FOLDER_NAME, _FILE_NAME);
+    const curPath = dirname(import.meta.url);
+    const path = join(curPath, FOLDER_NAME, FILE_NAME);
     const urlPath = fileURLToPath(path);
+    //Transform add EOL for save response in console
     await pipeline(
         createReadStream(urlPath),
         new Transform({

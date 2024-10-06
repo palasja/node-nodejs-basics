@@ -6,22 +6,24 @@ import { pipeline } from 'node:stream/promises';
 import { createGunzip } from 'node:zlib';
 
 const decompress = async () => {
-    const _FOLDER_NAME = 'files';
-    const _FILE_NAME = 'fileToCompress.txt';
-    const _ZIP_FILE_NAME = 'archive.gz';
+    const FOLDER_NAME = 'files';
+    const FILE_NAME = 'fileToCompress.txt';
+    const ZIP_FILE_NAME = 'archive.gz';
 
-    const cur_path = dirname(import.meta.url);
-    const path = join(cur_path, _FOLDER_NAME, _FILE_NAME);
-    const urlPath = fileURLToPath(path);
-
-    const zipPath = join(cur_path, _FOLDER_NAME, _ZIP_FILE_NAME);
-    const zipUrlPath = fileURLToPath(zipPath);
-
+    const getUrlPath = (folderName) => {
+        const curPath = dirname(import.meta.url);
+        const fullPath = join(curPath, FOLDER_NAME, folderName);
+        return fileURLToPath(fullPath);
+    }
+    const urlPath = getUrlPath(FILE_NAME);
+    const zipUrlPath = getUrlPath(ZIP_FILE_NAME);
+    //if file exist remove it
     await access(urlPath).then(
-        //if file exist remove it
+        
         async () => {
             await rm(urlPath);
         }
+    ,() => {}
     )
 
     const gzip = createGunzip();

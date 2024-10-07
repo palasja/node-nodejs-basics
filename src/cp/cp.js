@@ -1,4 +1,4 @@
-import { fork } from 'node:child_process';
+import { spawn } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -13,7 +13,8 @@ const spawnChildProcess = async (args) => {
     const path = join(curPath, FILES_FOLDER_NAME, FILE_NAME);
     const urlPath = fileURLToPath(path);
     
-    await fork(urlPath, args, OPTIONS);
+    //await fork(urlPath, args, OPTIONS);
+    await spawn('node', [urlPath, args], OPTIONS);
 }
 
 spawnChildProcess( [11,22,33,44]);
